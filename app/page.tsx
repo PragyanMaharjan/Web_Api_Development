@@ -33,7 +33,7 @@ export default function GetStartedPage() {
         </p>
 
         {/* Let's go → Customer */}
-        <Link href="/customer">
+        <Link href="customer">
           <button className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 rounded-md font-medium transition">
             Let’s go
           </button>
