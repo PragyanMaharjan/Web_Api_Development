@@ -33,37 +33,37 @@ export default function CustomerPage() {
           "Tender BBQ wings glazed in rich smoky sauce, served with an ice-cold Coke for the perfect combo.",
         price: 200,
         rating: 4.6,
-        image: "/images/FrontPage.jpg",
+        image: "/images/BBQ.png",
       },
       {
         id: "family-1",
         title: "Family Combo",
         subtitle: "Perfect for the whole family",
         description:
-          "A delightful family meal packed with tasty items and sides—great for sharing.",
+          "Tender chicken stir-fried with fresh vegetables in a bold, spicy sauce—perfectly balanced and full of flavor",
         price: 450,
         rating: 4.4,
-        image: "/images/FrontPage.jpg",
+        image: "/images/familyCombo.png",
       },
       {
         id: "family-2",
-        title: "Family Combo",
-        subtitle: "Perfect for the whole family",
+        title: "Chicken Chilli",
+        subtitle: "Cripsy, Spicy, All-Time Favourite",
         description:
           "A big combo meal designed for family gatherings—fresh, filling, and delicious.",
         price: 500,
         rating: 4.5,
-        image: "/images/FrontPage.jpg",
+        image: "/images/chickenChilli.png",
       },
       {
         id: "family-3",
-        title: "Family Combo",
-        subtitle: "Perfect for the whole family",
+        title: "Couple's Combo",
+        subtitle: "Perfect for your loved ones",
         description:
-          "Another hearty combo option with a balanced mix of main dishes and sides.",
+          "A value-packed combo for two with tasty mains and sides—great for sharing.",
         price: 520,
         rating: 4.3,
-        image: "/images/FrontPage.jpg",
+        image: "/images/coupleCombo.png",
       },
     ],
     []
@@ -169,7 +169,7 @@ export default function CustomerPage() {
   <div className="relative z-10 h-full px-4 sm:px-8 py-4 sm:py-6">
     <div className="grid grid-cols-3 items-start">
       {/* LEFT — Welcome */}
-      <div className="text-white max-w-[520px]">
+      <div className="text-white max-w-130">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold">
           Welcome to jhasha
         </h1>
@@ -193,7 +193,7 @@ export default function CustomerPage() {
         </div>
       </div>
 
-        /* RIGHT — Login */}
+        {/* RIGHT — Login */}
       <div className="flex justify-end">
         <Link
             href="/login"
@@ -353,7 +353,7 @@ export default function CustomerPage() {
                     <p className="mt-2 font-semibold">{dish.subtitle}</p>
                   </div>
 
-                  <div className="relative h-[160px] md:h-auto md:w-[320px]">
+                  <div className="relative h-40 md:h-auto md:w-[320px]">
                     <Image
                       src={dish.image}
                       alt={dish.title}

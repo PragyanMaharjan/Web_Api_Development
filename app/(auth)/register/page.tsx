@@ -40,7 +40,7 @@ export default function SignUpPage() {
       <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
 
       {/* card */}
-      <div className="relative z-10 w-[360px] md:w-[460px] rounded-2xl border border-white/10 bg-white/5 p-7 shadow-2xl backdrop-blur-xl">
+      <div className="relative z-10 w-90 md:w-115 rounded-2xl border border-white/10 bg-white/5 p-7 shadow-2xl backdrop-blur-xl">
         <div className="mb-6 text-center">
           <div className="mx-auto mb-3 h-14 w-14 rounded-full border border-orange-400/80 bg-black/30 grid place-items-center shadow-[0_0_30px_rgba(251,146,60,0.25)]">
             <span className="text-orange-300 text-xl font-semibold">J</span>
@@ -86,7 +86,7 @@ export default function SignUpPage() {
             />
             {!isMobileValid && mobile.length > 0 && (
               <p className="mt-1 text-xs text-red-300">
-                Enter a valid mobile number (7–15 digits).
+                Enter a valid mobile number (10 digits).
               </p>
             )}
           </div>
