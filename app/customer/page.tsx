@@ -103,7 +103,52 @@ export default function CustomerPage() {
             />
           )}
 
-  
+          {/* Sidebar */}
+          <aside
+            className={[
+              "fixed left-0 top-0 z-50 h-full w-64 bg-neutral-800 text-white shadow-2xl",
+              "transform transition-transform duration-300",
+              sidebarOpen ? "translate-x-0" : "-translate-x-full",
+            ].join(" ")}
+          >
+            <div className="px-5 py-4 border-b border-white/10 flex items-center justify-between">
+              <p className="text-sm font-semibold text-white/80">NAV</p>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="h-9 w-9 rounded-full bg-white/10 hover:bg-white/15 transition grid place-items-center"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            <nav className="p-5 space-y-3">
+              <Link
+                href="/customer"
+                onClick={() => setSidebarOpen(false)}
+                className="block rounded-md bg-white px-4 py-2 text-sm font-semibold text-orange-600 hover:bg-blue-600 hover:text-white transition"
+              >
+                Home
+              </Link>
+
+              {/* If you haven't created these pages, change href="#" for now */}
+              <Link
+                href="#"
+                onClick={() => setSidebarOpen(false)}
+                className="block rounded-md bg-white px-4 py-2 text-sm font-semibold text-orange-600 hover:bg-blue-600 hover:text-white transition"
+              >
+                Your Order
+              </Link>
+
+              <Link
+                href="#"
+                onClick={() => setSidebarOpen(false)}
+                className="block rounded-md bg-white px-4 py-2 text-sm font-semibold text-orange-600 hover:bg-blue-600 hover:text-white transition"
+              >
+                About Us
+              </Link>
+            </nav>
+          </aside>
 
           {/* HEADER */}
 {/* HEADER */}
@@ -148,7 +193,15 @@ export default function CustomerPage() {
         </div>
       </div>
 
-
+        /* RIGHT — Login */}
+      <div className="flex justify-end">
+        <Link
+            href="/login"
+          className="rounded-md border border-orange-400 bg-black/30 px-5 py-2 text-sm font-semibold text-orange-200 hover:bg-orange-400 hover:text-black transition"
+        >
+          Login
+        </Link>
+      </div>
     </div>
   </div>
 </div>
@@ -207,7 +260,7 @@ export default function CustomerPage() {
             </div>
           </div>
 
-
+          {/* ✅ CATEGORIES (left) + CART ICON (right) */}
 <div className="px-4 sm:px-8 pb-4">
   <div className="flex items-center justify-between gap-3">
     {/* Left side: categories */}
@@ -247,6 +300,39 @@ export default function CustomerPage() {
         COMBO
       </Link>
     </div>
+
+    {/* Right side: cart icon */}
+    <Link
+      href="/customer/cart"
+      aria-label="Cart"
+      className="shrink-0 h-11 w-11 rounded-md border border-orange-500 grid place-items-center text-orange-500 hover:bg-orange-500 hover:text-white transition"
+    >
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6 6h15l-1.5 9h-12L6 6Z"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M6 6 5 3H2"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+        <path
+          d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+      </svg>
+    </Link>
   </div>
 </div>
 
