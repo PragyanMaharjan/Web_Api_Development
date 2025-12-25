@@ -3,23 +3,45 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { loginSchema } from "@/app/schemas/login.schema";
 
 export default function LoginPage() {
-  const router = useRouter(); // 
+  const router = useRouter();
 
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  const isMobileValid = /^[0-9]{10}$/.test(mobile);
-  const canSubmit = isMobileValid && password.length >= 6;
+  // ✅ Zod errors
+  const [errors, setErrors] = useState<{
+    mobile?: string;
+    password?: string;
+  }>({});
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canSubmit) return;
+
+    // ✅ Validate using Zod
+    const result = loginSchema.safeParse({
+      mobile,
+      password,
+    });
+
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+
+      setErrors({
+        mobile: fieldErrors.mobile?.[0],
+        password: fieldErrors.password?.[0],
+      });
+      return;
+    }
+
+    // ✅ Clear errors
+    setErrors({});
 
     // TODO: replace with real API login check
-    console.log("LOGIN", { mobile, password });
+    console.log("LOGIN", result.data);
 
     // ✅ REDIRECT AFTER LOGIN
     router.push("/customer");
@@ -63,12 +85,12 @@ export default function LoginPage() {
               value={mobile}
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
               placeholder="e.g. 98XXXXXXXX"
-              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white"
+              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-orange-400/40"
             />
-            {!isMobileValid && mobile.length > 0 && (
-              <p className="mt-1 text-xs text-red-300">
-                Enter a valid mobile number (10 digits).
-              </p>
+
+            {/* ✅ Zod error */}
+            {errors.mobile && (
+              <p className="mt-1 text-xs text-red-400">{errors.mobile}</p>
             )}
           </div>
 
@@ -83,7 +105,7 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 type={showPass ? "text" : "password"}
                 placeholder="Minimum 6 characters"
-                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 pr-12 text-white"
+                className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 pr-12 text-white outline-none focus:ring-2 focus:ring-orange-400/40"
               />
               <button
                 type="button"
@@ -93,13 +115,17 @@ export default function LoginPage() {
                 {showPass ? "Hide" : "Show"}
               </button>
             </div>
+
+            {/* ✅ Zod error */}
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-400">{errors.password}</p>
+            )}
           </div>
 
           {/* login button */}
           <button
             type="submit"
-            disabled={!canSubmit}
-            className="w-full rounded-xl bg-orange-500 px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(249,115,22,0.35)] transition hover:bg-orange-400 disabled:opacity-50"
+            className="w-full rounded-xl bg-orange-500 px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(249,115,22,0.35)] transition hover:bg-orange-400"
           >
             Login
           </button>
@@ -120,6 +146,15 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
+        {/* admin login */}
+<div className="mt-4 text-center">
+  <Link
+    href="/admin/login"
+    className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-white/60 transition hover:border-orange-400/40 hover:text-orange-300"
+  >
+    Admin Login
+  </Link>
+</div>
       </div>
     </div>
   );

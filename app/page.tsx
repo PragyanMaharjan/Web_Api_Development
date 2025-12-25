@@ -54,7 +54,7 @@ export default function GetStartedPage() {
           {/* Admin link */}
           <div className="mt-4">
             <Link
-              href="/admin"
+              href="/admin/login"
               className="text-sm text-white/70 hover:text-orange-300 transition font-medium underline underline-offset-4"
             >
               Admin? Click here

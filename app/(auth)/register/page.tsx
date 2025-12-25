@@ -3,29 +3,56 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { registerSchema } from "@/app/schemas/register.schema";
 
 export default function SignUpPage() {
-  const router = useRouter(); // ✅ router added
+  const router = useRouter();
 
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  const isMobileValid = /^[0-9]{10}$/.test(mobile);
-  const passwordsMatch = password.length >= 6 && password === confirm;
-  const canSubmit =
-    fullName.trim().length >= 2 && isMobileValid && passwordsMatch;
+  // Zod errors
+  const [errors, setErrors] = useState<{
+    fullName?: string;
+    email?: string;
+    mobile?: string;
+    password?: string;
+    confirm?: string;
+  }>({});
 
   const handleSignUp = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!canSubmit) return;
 
-    // 🔐 Later: replace with real API signup
-    console.log("SIGNUP", { fullName, mobile, password });
+    const result = registerSchema.safeParse({
+      fullName,
+      email,
+      mobile,
+      password,
+      confirm,
+    });
 
-    // ✅ Redirect to login page after signup
+    if (!result.success) {
+      const fieldErrors = result.error.flatten().fieldErrors;
+      setErrors({
+        fullName: fieldErrors.fullName?.[0],
+        email: fieldErrors.email?.[0],
+        mobile: fieldErrors.mobile?.[0],
+        password: fieldErrors.password?.[0],
+        confirm: fieldErrors.confirm?.[0],
+      });
+      return;
+    }
+
+    setErrors({});
+
+    // 
+    console.log("SIGNUP", result.data);
+
+    //  Redirect to login after signup
     router.push("/login");
   };
 
@@ -68,6 +95,24 @@ export default function SignUpPage() {
               placeholder="Your name"
               className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-orange-400/60 focus:ring-2 focus:ring-orange-400/20"
             />
+            {errors.fullName && (
+              <p className="mt-1 text-xs text-red-400">{errors.fullName}</p>
+            )}
+          </div>
+
+          {/* email */}
+          <div>
+            <label className="mb-1 block text-sm text-white/70">Email</label>
+            <input
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              inputMode="email"
+              placeholder="e.g. you@example.com"
+              className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-orange-400/60 focus:ring-2 focus:ring-orange-400/20"
+            />
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+            )}
           </div>
 
           {/* mobile */}
@@ -77,17 +122,13 @@ export default function SignUpPage() {
             </label>
             <input
               value={mobile}
-              onChange={(e) =>
-                setMobile(e.target.value.replace(/\D/g, ""))
-              }
+              onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
               inputMode="numeric"
               placeholder="e.g. 98XXXXXXXX"
               className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-orange-400/60 focus:ring-2 focus:ring-orange-400/20"
             />
-            {!isMobileValid && mobile.length > 0 && (
-              <p className="mt-1 text-xs text-red-300">
-                Enter a valid mobile number (10 digits).
-              </p>
+            {errors.mobile && (
+              <p className="mt-1 text-xs text-red-400">{errors.mobile}</p>
             )}
           </div>
 
@@ -112,6 +153,9 @@ export default function SignUpPage() {
                 {showPass ? "Hide" : "Show"}
               </button>
             </div>
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-400">{errors.password}</p>
+            )}
           </div>
 
           {/* confirm password */}
@@ -126,18 +170,15 @@ export default function SignUpPage() {
               placeholder="Re-type password"
               className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-orange-400/60 focus:ring-2 focus:ring-orange-400/20"
             />
-            {confirm.length > 0 && !passwordsMatch && (
-              <p className="mt-1 text-xs text-red-300">
-                Passwords must match and be at least 6 characters.
-              </p>
+            {errors.confirm && (
+              <p className="mt-1 text-xs text-red-400">{errors.confirm}</p>
             )}
           </div>
 
           {/* signup button */}
           <button
             type="submit"
-            disabled={!canSubmit}
-            className="w-full rounded-xl bg-orange-500 px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(249,115,22,0.35)] transition hover:bg-orange-400 disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-xl bg-orange-500 px-4 py-3 font-semibold text-white shadow-[0_10px_30px_rgba(249,115,22,0.35)] transition hover:bg-orange-400"
           >
             Sign Up
           </button>
@@ -153,7 +194,7 @@ export default function SignUpPage() {
           </p>
 
           <p className="pt-1 text-center text-xs text-white/40">
-            We’ll use your mobile for login & verification.
+            We’ll use your email & mobile for login & verification.
           </p>
         </form>
       </div>
