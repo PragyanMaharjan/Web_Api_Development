@@ -32,7 +32,7 @@ export default function AdminLoginPage() {
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative"
-      style={{ backgroundImage: "url('/images/Background2.png')" }}
+      style={{ backgroundImage: "url('/images/Background2.jpeg')" }}
     >
       {/* overlay */}
       <div className="absolute inset-0 bg-black/50" />
