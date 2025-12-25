@@ -1,22 +1,29 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function LoginPage() {
+  const router = useRouter(); // ✅ router added
+
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  const isMobileValid = /^[0-9]{7,15}$/.test(mobile); // simple validation
+  const isMobileValid = /^[0-9]{10}$/.test(mobile);
   const canSubmit = isMobileValid && password.length >= 6;
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!canSubmit) return;
 
-    // TODO: call your API here
+    // 🔐 Later: replace with real API login
     console.log("LOGIN", { mobile, password });
+
+    // ✅ Redirect to customer page
+    router.push("/customer");
   };
 
   return (
@@ -27,13 +34,13 @@ export default function LoginPage() {
       {/* overlay */}
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* soft glow accents */}
+      {/* glow accents */}
       <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-orange-500/25 blur-3xl" />
       <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
 
       {/* card */}
       <div className="relative z-10 w-90 md:w-105 rounded-2xl border border-white/10 bg-white/5 p-7 shadow-2xl backdrop-blur-xl">
-        {/* header / logo */}
+        {/* header */}
         <div className="mb-6 text-center">
           <div className="mx-auto mb-3 h-14 w-14 rounded-full border border-orange-400/80 bg-black/30 grid place-items-center shadow-[0_0_30px_rgba(251,146,60,0.25)]">
             <span className="text-orange-300 text-xl font-semibold">J</span>
@@ -56,7 +63,9 @@ export default function LoginPage() {
             <div className="relative">
               <input
                 value={mobile}
-                onChange={(e) => setMobile(e.target.value.replace(/\D/g, ""))}
+                onChange={(e) =>
+                  setMobile(e.target.value.replace(/\D/g, ""))
+                }
                 inputMode="numeric"
                 placeholder="e.g. 98XXXXXXXX"
                 className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white placeholder:text-white/30 outline-none focus:border-orange-400/60 focus:ring-2 focus:ring-orange-400/20"
@@ -67,14 +76,16 @@ export default function LoginPage() {
             </div>
             {!isMobileValid && mobile.length > 0 && (
               <p className="mt-1 text-xs text-red-300">
-                Enter a valid mobile number (7–15 digits).
+                Enter a valid mobile number (10 digits).
               </p>
             )}
           </div>
 
           {/* password */}
           <div>
-            <label className="mb-1 block text-sm text-white/70">Password</label>
+            <label className="mb-1 block text-sm text-white/70">
+              Password
+            </label>
             <div className="relative">
               <input
                 value={password}
@@ -93,7 +104,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* actions */}
+          {/* login button */}
           <button
             type="submit"
             disabled={!canSubmit}
@@ -104,7 +115,7 @@ export default function LoginPage() {
 
           <div className="flex items-center justify-between text-sm">
             <Link
-              href="/signup"
+              href="/register"
               className="text-orange-200/90 hover:text-orange-200 underline underline-offset-4"
             >
               Don’t have an account? Sign up
@@ -119,7 +130,6 @@ export default function LoginPage() {
             </button>
           </div>
 
-          {/* footer hint */}
           <p className="pt-2 text-center text-xs text-white/40">
             By continuing, you agree to our Terms & Privacy.
           </p>
