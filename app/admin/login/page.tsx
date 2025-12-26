@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { adminLoginSchema, type AdminLoginValues } from "../../schemas/admin-login.schema";
+import {
+  adminLoginSchema,
+  type AdminLoginValues,
+} from "../../schemas/admin-login.schema";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -31,7 +34,7 @@ export default function AdminLoginPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative"
+      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative overflow-x-hidden"
       style={{ backgroundImage: "url('/images/Background2.jpeg')" }}
     >
       {/* overlay */}

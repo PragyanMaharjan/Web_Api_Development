@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function GetStartedPage() {
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative"
+      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative overflow-x-hidden"
       style={{
         backgroundImage: "url('/images/Background2.jpeg')",
       }}
@@ -36,9 +36,7 @@ export default function GetStartedPage() {
           </div>
 
           {/* Heading */}
-          <h2 className="text-white text-xl font-semibold mb-2">
-            Get Started
-          </h2>
+          <h2 className="text-white text-xl font-semibold mb-2">Get Started</h2>
 
           <p className="text-white/70 text-sm mb-6">
             Enjoy all of Jhaska&apos;s services <br /> with one click

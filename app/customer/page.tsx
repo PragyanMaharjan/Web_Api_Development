@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 
 // Your structure: app/components/DishModal.tsx
 // From app/customer/page.tsx -> ../components/DishModal ✅
@@ -19,6 +20,8 @@ type Dish = {
 };
 
 export default function CustomerPage() {
+  const router = useRouter();
+
   // Sidebar state
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -90,6 +93,11 @@ export default function CustomerPage() {
     closeDish();
   }
 
+  function handleLogout() {
+    setSidebarOpen(false);
+    router.push("/"); // ✅ back to main page.tsx
+  }
+
   return (
     <div className="min-h-screen bg-neutral-900 p-0">
       <div className="w-full">
@@ -147,64 +155,72 @@ export default function CustomerPage() {
               >
                 About Us
               </Link>
+
+              {/* ✅ Logout in sidebar */}
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="block w-full rounded-md border border-red-400 bg-black/30 px-4 py-2 text-left text-sm font-semibold text-red-300 hover:bg-red-500 hover:text-white transition"
+              >
+                Logout
+              </button>
             </nav>
           </aside>
 
           {/* HEADER */}
-{/* HEADER */}
-<div className="relative h-50 sm:h-60 md:h-70 w-full">
-  {/* Background image */}
-  <Image
-    src="/images/BackgroundPage.png"
-    alt="Header background"
-    fill
-    className="object-cover"
-    priority
-  />
+          <div className="relative h-50 sm:h-60 md:h-70 w-full">
+            {/* Background image */}
+            <Image
+              src="/images/BackgroundPage.png"
+              alt="Header background"
+              fill
+              className="object-cover"
+              priority
+            />
 
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/40" />
+            {/* Dark overlay */}
+            <div className="absolute inset-0 bg-black/40" />
 
-  {/* Content */}
-  <div className="relative z-10 h-full px-4 sm:px-8 py-4 sm:py-6">
-    <div className="grid grid-cols-3 items-start">
-      {/* LEFT — Welcome */}
-      <div className="text-white max-w-130">
-        <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold">
-          Welcome to jhasha
-        </h1>
-        <p className="mt-1 text-sm sm:text-base md:text-lg font-semibold">
-          Scan, order, and enjoy fresh flavors.
-        </p>
-      </div>
+            {/* Content */}
+            <div className="relative z-10 h-full px-4 sm:px-8 py-4 sm:py-6">
+              <div className="grid grid-cols-3 items-start">
+                {/* LEFT — Welcome */}
+                <div className="text-white max-w-130">
+                  <h1 className="text-xl sm:text-2xl md:text-3xl font-extrabold">
+                    Welcome to jhasha
+                  </h1>
+                  <p className="mt-1 text-sm sm:text-base md:text-lg font-semibold">
+                    Scan, order, and enjoy fresh flavors.
+                  </p>
+                </div>
 
-      {/* CENTER — Logo */}
-      <div className="flex justify-center text-center">
-        <div>
-          <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-orange-400 text-xl sm:text-2xl font-semibold text-orange-300">
-            J
+                {/* CENTER — Logo */}
+                <div className="flex justify-center text-center">
+                  <div>
+                    <div className="mx-auto flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full border-2 border-orange-400 text-xl sm:text-2xl font-semibold text-orange-300">
+                      J
+                    </div>
+                    <p className="mt-2 text-[11px] sm:text-[12px] tracking-[0.35em] text-orange-200">
+                      JHASHA
+                    </p>
+                    <p className="text-[9px] sm:text-[10px] tracking-[0.45em] text-orange-200/90">
+                      RESTAURANT
+                    </p>
+                  </div>
+                </div>
+
+                {/* RIGHT — Login (kept as you had) */}
+                <div className="flex justify-end">
+                  <Link
+                    href="/login"
+                    className="rounded-md border border-orange-400 bg-black/30 px-5 py-2 text-sm font-semibold text-orange-200 hover:bg-orange-400 hover:text-black transition"
+                  >
+                    Login
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="mt-2 text-[11px] sm:text-[12px] tracking-[0.35em] text-orange-200">
-            JHASHA
-          </p>
-          <p className="text-[9px] sm:text-[10px] tracking-[0.45em] text-orange-200/90">
-            RESTAURANT
-          </p>
-        </div>
-      </div>
-
-        {/* RIGHT — Login */}
-      <div className="flex justify-end">
-        <Link
-            href="/login"
-          className="rounded-md border border-orange-400 bg-black/30 px-5 py-2 text-sm font-semibold text-orange-200 hover:bg-orange-400 hover:text-black transition"
-        >
-          Login
-        </Link>
-      </div>
-    </div>
-  </div>
-</div>
 
           {/* SEARCH */}
           <div className="flex items-center gap-3 px-4 sm:px-8 py-4 bg-white">
@@ -261,81 +277,80 @@ export default function CustomerPage() {
           </div>
 
           {/* ✅ CATEGORIES (left) + CART ICON (right) */}
-<div className="px-4 sm:px-8 pb-4">
-  <div className="flex items-center justify-between gap-3">
-    {/* Left side: categories */}
-    <div className="flex gap-3 overflow-x-auto">
-      <Link
-        href="/customer/starter"
-        className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
-      >
-        STARTER
-      </Link>
+          <div className="px-4 sm:px-8 pb-4">
+            <div className="flex items-center justify-between gap-3">
+              {/* Left side: categories */}
+              <div className="flex gap-3 overflow-x-auto">
+                <Link
+                  href="/customer/starter"
+                  className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
+                >
+                  STARTER
+                </Link>
 
-      <Link
-        href="/customer/maincourse"
-        className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
-      >
-        MAIN COURSE
-      </Link>
+                <Link
+                  href="/customer/maincourse"
+                  className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
+                >
+                  MAIN COURSE
+                </Link>
 
-      <Link
-        href="/customer/drinks"
-        className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
-      >
-        DRINKS
-      </Link>
+                <Link
+                  href="/customer/drinks"
+                  className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
+                >
+                  DRINKS
+                </Link>
 
-      <Link
-        href="/customer/popular"
-        className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
-      >
-        POPULAR
-      </Link>
+                <Link
+                  href="/customer/popular"
+                  className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
+                >
+                  POPULAR
+                </Link>
 
-      <Link
-        href="/customer/combo"
-        className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
-      >
-        COMBO
-      </Link>
-    </div>
+                <Link
+                  href="/customer/combo"
+                  className="shrink-0 rounded-md border border-orange-500 px-6 py-2 text-xs font-bold text-orange-500 hover:bg-orange-500 hover:text-white transition"
+                >
+                  COMBO
+                </Link>
+              </div>
 
-    {/* Right side: cart icon */}
-    <Link
-      href="/customer/cart"
-      aria-label="Cart"
-      className="shrink-0 h-11 w-11 rounded-md border border-orange-500 grid place-items-center text-orange-500 hover:bg-orange-500 hover:text-white transition"
-    >
-      <svg
-        width="22"
-        height="22"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M6 6h15l-1.5 9h-12L6 6Z"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M6 6 5 3H2"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
-          stroke="currentColor"
-          strokeWidth="2"
-        />
-      </svg>
-    </Link>
-  </div>
-</div>
-
+              {/* Right side: cart icon */}
+              <Link
+                href="/customer/cart"
+                aria-label="Cart"
+                className="shrink-0 h-11 w-11 rounded-md border border-orange-500 grid place-items-center text-orange-500 hover:bg-orange-500 hover:text-white transition"
+              >
+                <svg
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 6h15l-1.5 9h-12L6 6Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M6 6 5 3H2"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M9 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM18 21a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
 
           {/* DISH CARDS (clickable → modal) */}
           <div className="px-4 sm:px-8 pb-10 space-y-6">
