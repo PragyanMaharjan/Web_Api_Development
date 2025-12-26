@@ -15,7 +15,6 @@ export default function SignUpPage() {
   const [confirm, setConfirm] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  // Zod errors
   const [errors, setErrors] = useState<{
     fullName?: string;
     email?: string;
@@ -48,21 +47,21 @@ export default function SignUpPage() {
     }
 
     setErrors({});
-
-    // 
     console.log("SIGNUP", result.data);
 
-    //  Redirect to login after signup
+    // Redirect to login after signup
     router.push("/login");
   };
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative"
+      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative overflow-x-hidden"
       style={{ backgroundImage: "url('/images/BackgroundPage.png')" }}
     >
       {/* overlay */}
       <div className="absolute inset-0 bg-black/50" />
+
+      {/* glow accents */}
       <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-orange-500/25 blur-3xl" />
       <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
 

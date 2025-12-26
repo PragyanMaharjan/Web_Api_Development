@@ -12,7 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
 
-  // ✅ Zod errors
   const [errors, setErrors] = useState<{
     mobile?: string;
     password?: string;
@@ -21,7 +20,6 @@ export default function LoginPage() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // ✅ Validate using Zod
     const result = loginSchema.safeParse({
       mobile,
       password,
@@ -29,7 +27,6 @@ export default function LoginPage() {
 
     if (!result.success) {
       const fieldErrors = result.error.flatten().fieldErrors;
-
       setErrors({
         mobile: fieldErrors.mobile?.[0],
         password: fieldErrors.password?.[0],
@@ -37,25 +34,22 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ Clear errors
     setErrors({});
-
-    // TODO: replace with real API login check
     console.log("LOGIN", result.data);
 
-    // ✅ REDIRECT AFTER LOGIN
+    // customer redirect
     router.push("/customer");
   };
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative"
+      className="min-h-screen flex items-center justify-center bg-cover bg-no-repeat relative overflow-x-hidden"
       style={{ backgroundImage: "url('/images/Background2.jpeg')" }}
     >
       {/* overlay */}
       <div className="absolute inset-0 bg-black/50" />
 
-      {/* soft glow accents */}
+      {/* glow accents */}
       <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-orange-500/25 blur-3xl" />
       <div className="absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-orange-400/20 blur-3xl" />
 
@@ -87,8 +81,6 @@ export default function LoginPage() {
               placeholder="e.g. 98XXXXXXXX"
               className="w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-white outline-none focus:ring-2 focus:ring-orange-400/40"
             />
-
-            {/* ✅ Zod error */}
             {errors.mobile && (
               <p className="mt-1 text-xs text-red-400">{errors.mobile}</p>
             )}
@@ -115,8 +107,6 @@ export default function LoginPage() {
                 {showPass ? "Hide" : "Show"}
               </button>
             </div>
-
-            {/* ✅ Zod error */}
             {errors.password && (
               <p className="mt-1 text-xs text-red-400">{errors.password}</p>
             )}
@@ -137,7 +127,6 @@ export default function LoginPage() {
             >
               Don’t have an account? Sign up
             </Link>
-
             <button
               type="button"
               className="text-white/60 underline underline-offset-4"
@@ -146,15 +135,16 @@ export default function LoginPage() {
             </button>
           </div>
         </form>
+
         {/* admin login */}
-<div className="mt-4 text-center">
-  <Link
-    href="/admin/login"
-    className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-white/60 transition hover:border-orange-400/40 hover:text-orange-300"
-  >
-    Admin Login
-  </Link>
-</div>
+        <div className="mt-4 text-center">
+          <Link
+            href="/admin/login"
+            className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-black/20 px-3 py-1.5 text-xs text-white/60 transition hover:border-orange-400/40 hover:text-orange-300"
+          >
+            Admin Login
+          </Link>
+        </div>
       </div>
     </div>
   );
